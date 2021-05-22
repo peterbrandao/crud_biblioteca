@@ -1,77 +1,28 @@
+// import * as Yup from 'yup';
 import User from '../../models/User';
 
-class userController{
-    async create(req, res){
-        // res.json({
-        //     mesage:'Deus é bom'
-        // })
-        try {
-            const {...data} = req.body;
-            const user = await User.create({
-                ...data
-            });
-            return res.json(user);
+class UserController {
+  async create(req, res) {
+    try {
+      const { ...data } = req.body;
 
-        } catch (error) {
-            console.log(error);
-            return res.status(500);
-            
-        }
-     };
-     async list(req, res){
-        const user = await User.findAll();
-        res.json(user); 
-     };
-     async listIndex(req, res){
-        const user = await User.findOne({
-            where: {
-                id:req.params.id
-            }
-        });
-        res.json(user); 
-     };
+    //   await Yup.object()
+    //     .shape({
+    //       name: Yup.string().required(),
+    //       password: Yup.string().required(),
+    //       email: Yup.string().email().required(),
+    //     })
+    //     .validate(data, { abortEarly: false });
 
-     async delete(req, res){
-         try {
-            const user = await User.findOne({
-                where: {
-                    id:req.params.id
-                }
-            });
-            user.update({
-                deleted_at:new Date()
-            })
-            res.json(user); 
-         } catch (error) {
-             res.json({
-                 mesage:'usuário não encontrato'
-             })
+      const user = await User.create({ ...data });
 
-         }
-     };
-
-     async update(req, res){
-        try {
-            const {
-                ...date
-            }
-            = req.body 
-            const user = await User.findOne({
-                where: {
-                    id:req.params.id
-                }
-            });
-            user.update({
-                ...date
-            })
-            res.json(user); 
-         } catch (error) {
-             res.json({
-                 mesage:'usuário não encontrato'
-             })
-
-     };
+      return res.status(201).json({ user, token: user.tokenGenerate() });
+    } catch (err) {console.log(err)
+      return res
+        .status(500)
+        .json({ err:'erro'});
     }
+  }
 }
 
-export default new userController();
+export default new UserController();

@@ -1,5 +1,7 @@
-import Sequelize, { Model, Sequelize } from "sequelize";
-import bcrypt from "bcryptjs";
+import Sequelize, { Model, Op } from 'sequelize';
+import bcrypt from 'bcryptjs';
+import 'dotenv/config';
+import jwt from 'jsonwebtoken';
 
 class User extends Model {
   static init(sequelize) {
@@ -9,14 +11,30 @@ class User extends Model {
         email: Sequelize.STRING,
         password: Sequelize.VIRTUAL,
         password_hash: Sequelize.STRING,
-        provider: Sequelize.BOOLEAN,
+        deleted_at: Sequelize.DATE,
       },
       {
+        defaultScope: {
+          where: {},
+        },
+        scopes: {
+          deleted: {
+            where: {
+              deleted_at: { [Op.ne]: null },
+            },
+          },
+          active: {
+            where: {
+              deleted_at: null,
+            },
+          },
+        },
         sequelize,
+        tableName: 'users',
       }
     );
-
-    this.addHook("beforeSave", async (user) => {
+    // incriptando o password bcrypt
+    this.addHook('beforeSave', async (user) => {
       if (user.password) {
         user.password_hash = await bcrypt.hash(user.password, 8);
       }
@@ -25,15 +43,21 @@ class User extends Model {
     return this;
   }
 
-  static associate(models) {
-    this.belongsTo(models.File, {
-      foreignKey: "avatar_id",
-      as: "avatar",
-    });
-  }
-
   checkPassword(password) {
-    return bcrypt.compare(password, this.password_hash);
+    return bcrypt.compare(String(password), this.password_hash);
+  }
+  //gera o token JWT
+  tokenGenerate(type = 'password') {
+    switch (type) {
+      case 'password':
+        return jwt.sign({ id: this.id }, process.env.APP_SECRET, {
+          expiresIn: 86400,
+        });
+
+      default:
+        return '';
+    }
   }
 }
+
 export default User;

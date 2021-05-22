@@ -4,19 +4,8 @@ import databaseConfig from '../config/database';
 
 import User from '../app/models/User';
 
-import Livro from '../app/models/Livro';
-
-import Autor from '../app/models/Autor';
-
-import Cliente from '../app/models/Cliente';
-
-
 const models = [
-  User,
-  Livro,
-  Autor,
-  Cliente
- 
+  User 
 ];
 
 class Database {

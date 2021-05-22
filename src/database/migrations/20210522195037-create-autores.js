@@ -2,33 +2,22 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable('livro', {
+    return queryInterface.createTable('autores', {
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
         primaryKey: true,
       },
-      isbn: {
+      nome_autor: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
-      titulo: {
+      pais_nasc: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: false,
       },
-      autor: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      editora: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },   
-      publicacao: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },    
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,
@@ -44,6 +33,6 @@ module.exports = {
   },
 
   down: async (queryInterface) => {
-    return queryInterface.dropTable('livro');
+    return queryInterface.dropTable('autores');
   },
 };

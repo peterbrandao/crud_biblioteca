@@ -1,4 +1,3 @@
-import { Decipher } from "crypto";
 import jwt, { decode } from "jsonwebtoken";
 
 import { promisify } from "util";
