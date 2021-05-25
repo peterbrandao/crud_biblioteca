@@ -1,14 +1,14 @@
 // import * as Yup from 'yup';
-import User from '../../models/User';
+import Autores from '../../models/Autores';
 
-class UserController {
+class AutoresController {
   async create(req, res) {
     try {
       const { ...data } = req.body;
 
-      const user = await User.create({ ...data });
+      const autores = await Autores.create({ ...data });
 
-      return res.status(201).json({ user, token: user.tokenGenerate() });
+      return res.status(201).json({autores });
     } catch (err) {console.log(err)
       return res
         .status(500)
@@ -17,4 +17,4 @@ class UserController {
   }
 }
 
-export default new UserController();
+export default new AutoresController();
