@@ -1,14 +1,15 @@
 import Sequelize, { Model, Op } from 'sequelize';
-//import bcrypt from 'bcryptjs';
-import 'dotenv/config';
-//import jwt from 'jsonwebtoken';
 
-class Autores extends Model {
+import 'dotenv/config';
+
+class Livros extends Model {
   static init(sequelize) {
     super.init(
       {
-        nome_autor: Sequelize.STRING,
-        pais_nasc: Sequelize.STRING
+        nome_livro: Sequelize.STRING,
+        isbn: Sequelize.NUMBER,
+        ano_publicacao:Sequelize.INTEGER,
+        id_autor:Sequelize.INTEGER
       },
       {
         defaultScope: {
@@ -27,9 +28,9 @@ class Autores extends Model {
           },
         },
         sequelize,
-        tableName: 'autores',
+        tableName: 'livros',
       }
     );
     return this;
   }}
-export default Autores;
+export default Livros;
