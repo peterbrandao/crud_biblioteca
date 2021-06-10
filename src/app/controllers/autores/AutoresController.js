@@ -1,4 +1,4 @@
-// import * as Yup from 'yup';
+''// import * as Yup from 'yup';
 import Autores from '../../models/Autores';
 
 class AutoresController {

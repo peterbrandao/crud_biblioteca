@@ -1,15 +1,13 @@
 import Sequelize, { Model, Op } from 'sequelize';
-//import bcrypt from 'bcryptjs';
-import 'dotenv/config';
-//import jwt from 'jsonwebtoken';
 
-class Autores extends Model {
+import 'dotenv/config';
+
+class Retiradas extends Model {
   static init(sequelize) {
     super.init(
       {
-        nome_autor: Sequelize.STRING,
-        pais_nasc: Sequelize.STRING,
-        deleted_at: Sequelize.DATE,
+        
+        deleted_at: Sequelize.DATE, 
       },
       {
         defaultScope: {
@@ -28,10 +26,21 @@ class Autores extends Model {
           },
         },
         sequelize,
-        tableName: 'autores',
+        tableName: 'retirada',
       }
     );
     return this;
-  }}
+  }
+  static associate(models) {
+    this.belongsTo(models.Livros, {
+      foreignKey: 'id_livro',
+      as: 'livros',
+    });
+    this.belongsTo(models.Clientes, {
+      foreignKey: 'id_cliente',
+      as: 'clientes',
+    });
+}
 
-export default Autores;
+}
+export default Retiradas;

@@ -8,6 +8,7 @@ class Clientes extends Model {
       {
         nome_cliente: Sequelize.STRING,
         telefone_cliente: Sequelize.STRING,
+        deleted_at: Sequelize.DATE
       },
       {
         defaultScope: {

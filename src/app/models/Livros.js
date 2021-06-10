@@ -7,9 +7,10 @@ class Livros extends Model {
     super.init(
       {
         nome_livro: Sequelize.STRING,
-        isbn: Sequelize.NUMBER,
+        isbn: Sequelize.STRING,
         ano_publicacao:Sequelize.INTEGER,
-        id_autor:Sequelize.INTEGER
+        id_autor:Sequelize.INTEGER,
+        deleted_at: Sequelize.DATE
       },
       {
         defaultScope: {
